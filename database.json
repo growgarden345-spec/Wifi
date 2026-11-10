@@ -1,0 +1,322 @@
+{
+  "settings": {
+    "storeName": "NETVOUCHER ID",
+    "hotspotName": "Wifi Corner / RT-RW Net",
+    "loginUrl": "http://192.168.88.1/login",
+    "adminPassword": "admin",
+    "qrisImage": "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=ContohQRIS-GantiDiAdmin",
+    "danaNumber": "083816277000",
+    "gopayNumber": "083816277000",
+    "whatsappCs": "628316277000"
+  },
+  "packages": [
+    {
+      "id": "pkg-1",
+      "name": "Kilat 3 Jam",
+      "duration": "3 Jam Aktif",
+      "speed": "Up to 5 Mbps",
+      "price": 2000,
+      "badge": "Hemat",
+      "desc": "Cocok untuk browsing santai & kirim tugas"
+    },
+    {
+      "id": "pkg-2",
+      "name": "Harian Juara 24 Jam",
+      "duration": "24 Jam Aktif",
+      "speed": "Up to 10 Mbps",
+      "price": 5000,
+      "badge": "Populer",
+      "desc": "Streaming YouTube & main game lancar seharian"
+    },
+    {
+      "id": "pkg-3",
+      "name": "Mingguan Ngebut 7 Hari",
+      "duration": "7 Hari (1 Minggu)",
+      "speed": "Up to 15 Mbps",
+      "price": 20000,
+      "badge": "Best Value",
+      "desc": "Unlimited kuota, bebas download & movie"
+    },
+    {
+      "id": "pkg-4",
+      "name": "Bulanan Sultan 30 Hari",
+      "duration": "30 Hari Full",
+      "speed": "Up to 20 Mbps",
+      "price": 65000,
+      "badge": "Super Cepat",
+      "desc": "Pilihan utama WFH, gamer, dan internetan puas sebulan"
+    },
+    {
+      "id": "pkg-1794308154252",
+      "name": "NGEBUT Terus  5 tahun",
+      "duration": "5 tahun",
+      "speed": "500 mbps",
+      "price": 500000,
+      "badge": "Best seller",
+      "desc": ""
+    },
+    {
+      "id": "pkg-1794308154404",
+      "name": "NGEBUT Terus  5 tahun",
+      "duration": "5 tahun",
+      "speed": "500 mbps",
+      "price": 500000,
+      "badge": "Best seller",
+      "desc": ""
+    },
+    {
+      "id": "pkg-1794308154467",
+      "name": "NGEBUT Terus  5 tahun",
+      "duration": "5 tahun",
+      "speed": "500 mbps",
+      "price": 500000,
+      "badge": "Best seller",
+      "desc": ""
+    },
+    {
+      "id": "pkg-1794308154645",
+      "name": "NGEBUT Terus  5 tahun",
+      "duration": "5 tahun",
+      "speed": "500 mbps",
+      "price": 500000,
+      "badge": "Best seller",
+      "desc": ""
+    },
+    {
+      "id": "pkg-1794308154866",
+      "name": "NGEBUT Terus  5 tahun",
+      "duration": "5 tahun",
+      "speed": "500 mbps",
+      "price": 500000,
+      "badge": "Best seller",
+      "desc": ""
+    },
+    {
+      "id": "pkg-1794308155459",
+      "name": "NGEBUT Terus  5 tahun",
+      "duration": "5 tahun",
+      "speed": "500 mbps",
+      "price": 500000,
+      "badge": "Best seller",
+      "desc": ""
+    },
+    {
+      "id": "pkg-1794308155465",
+      "name": "NGEBUT Terus  5 tahun",
+      "duration": "5 tahun",
+      "speed": "500 mbps",
+      "price": 500000,
+      "badge": "Best seller",
+      "desc": ""
+    },
+    {
+      "id": "pkg-1794308155594",
+      "name": "NGEBUT Terus  5 tahun",
+      "duration": "5 tahun",
+      "speed": "500 mbps",
+      "price": 500000,
+      "badge": "Best seller",
+      "desc": ""
+    },
+    {
+      "id": "pkg-1794308155609",
+      "name": "NGEBUT Terus  5 tahun",
+      "duration": "5 tahun",
+      "speed": "500 mbps",
+      "price": 500000,
+      "badge": "Best seller",
+      "desc": ""
+    },
+    {
+      "id": "pkg-1794308155614",
+      "name": "NGEBUT Terus  5 tahun",
+      "duration": "5 tahun",
+      "speed": "500 mbps",
+      "price": 500000,
+      "badge": "Best seller",
+      "desc": "Cocok semua "
+    },
+    {
+      "id": "pkg-1794308155679",
+      "name": "NGEBUT Terus  5 tahun",
+      "duration": "5 tahun",
+      "speed": "500 mbps",
+      "price": 500000,
+      "badge": "Best seller",
+      "desc": "Cocok semua "
+    },
+    {
+      "id": "pkg-1794308155692",
+      "name": "NGEBUT Terus  5 tahun",
+      "duration": "5 tahun",
+      "speed": "500 mbps",
+      "price": 500000,
+      "badge": "Best seller",
+      "desc": "Cocok semua "
+    },
+    {
+      "id": "pkg-1794308155701",
+      "name": "NGEBUT Terus  5 tahun",
+      "duration": "5 tahun",
+      "speed": "500 mbps",
+      "price": 500000,
+      "badge": "Best seller",
+      "desc": "Cocok semua "
+    },
+    {
+      "id": "pkg-1794308155705",
+      "name": "NGEBUT Terus  5 tahun",
+      "duration": "5 tahun",
+      "speed": "500 mbps",
+      "price": 500000,
+      "badge": "Best seller",
+      "desc": "Cocok semua "
+    },
+    {
+      "id": "pkg-1794308155719",
+      "name": "NGEBUT Terus  5 tahun",
+      "duration": "5 tahun",
+      "speed": "500 mbps",
+      "price": 500000,
+      "badge": "Best seller",
+      "desc": "Cocok semua "
+    },
+    {
+      "id": "pkg-1794308155724",
+      "name": "NGEBUT Terus  5 tahun",
+      "duration": "5 tahun",
+      "speed": "500 mbps",
+      "price": 500000,
+      "badge": "Best seller",
+      "desc": "Cocok semua "
+    }
+  ],
+  "vouchers": [
+    {
+      "id": "v-1",
+      "packageId": "pkg-1",
+      "code": "NV-3J-8912",
+      "used": true,
+      "orderId": "ORD-66902295"
+    },
+    {
+      "id": "v-2",
+      "packageId": "pkg-1",
+      "code": "NV-3J-4321",
+      "used": false,
+      "orderId": null
+    },
+    {
+      "id": "v-3",
+      "packageId": "pkg-2",
+      "code": "NV-1D-9901",
+      "used": true,
+      "orderId": "ORD-57232238"
+    },
+    {
+      "id": "v-4",
+      "packageId": "pkg-2",
+      "code": "NV-1D-8822",
+      "used": false,
+      "orderId": null
+    },
+    {
+      "id": "v-5",
+      "packageId": "pkg-3",
+      "code": "NV-7D-5510",
+      "used": false,
+      "orderId": null
+    },
+    {
+      "id": "v-6",
+      "packageId": "pkg-4",
+      "code": "NV-30D-0071",
+      "used": true,
+      "orderId": "ORD-75730042"
+    },
+    {
+      "id": "v-1794307821214-972",
+      "packageId": "pkg-1",
+      "code": "NV-526-ASJ",
+      "used": false,
+      "orderId": null
+    },
+    {
+      "id": "v-1794307856336-194",
+      "packageId": "pkg-2",
+      "code": "NV-1825-FAG",
+      "used": false,
+      "orderId": null
+    },
+    {
+      "id": "v-1794307871962-343",
+      "packageId": "pkg-3",
+      "code": "NG-725-HSG",
+      "used": false,
+      "orderId": null
+    },
+    {
+      "id": "v-1794307892947-363",
+      "packageId": "pkg-4",
+      "code": "NS-72528-GAD",
+      "used": false,
+      "orderId": null
+    }
+  ],
+  "orders": [
+    {
+      "id": "ORD-75730042",
+      "buyerName": "Hddh",
+      "buyerPhone": "31548494",
+      "packageId": "pkg-4",
+      "packageName": "Bulanan Sultan 30 Hari",
+      "price": 65000,
+      "paymentMethod": "QRIS",
+      "status": "SUCCESS",
+      "proofImage": null,
+      "voucherCode": "NV-30D-0071",
+      "createdAt": "2026-11-10T09:59:17.300Z",
+      "approvedAt": "2026-11-10T10:01:14.958Z"
+    },
+    {
+      "id": "ORD-66902295",
+      "buyerName": "Hddh",
+      "buyerPhone": "31548494",
+      "packageId": "pkg-1",
+      "packageName": "Kilat 3 Jam",
+      "price": 2000,
+      "paymentMethod": "DANA",
+      "status": "SUCCESS",
+      "proofImage": null,
+      "voucherCode": "NV-3J-8912",
+      "createdAt": "2026-11-10T09:57:49.023Z",
+      "approvedAt": "2026-11-10T09:58:05.023Z"
+    },
+    {
+      "id": "ORD-57232238",
+      "buyerName": "Hddh",
+      "buyerPhone": "31548494",
+      "packageId": "pkg-2",
+      "packageName": "Harian Juara 24 Jam",
+      "price": 5000,
+      "paymentMethod": "QRIS",
+      "status": "SUCCESS",
+      "proofImage": null,
+      "voucherCode": "NV-1D-9901",
+      "createdAt": "2026-11-09T04:29:32.331Z",
+      "approvedAt": "2026-11-09T04:30:03.708Z"
+    },
+    {
+      "id": "TRX-1001",
+      "buyerName": "Budi Santoso",
+      "buyerPhone": "08123456789",
+      "packageId": "pkg-2",
+      "packageName": "Harian Juara 24 Jam",
+      "price": 5000,
+      "paymentMethod": "QRIS",
+      "status": "SUCCESS",
+      "voucherCode": "NV-1D-DEMO",
+      "createdAt": "2026-11-09T04:20:03.540Z"
+    }
+  ]
+}

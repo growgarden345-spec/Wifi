@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beli Voucher WiFi Online - Cepat & Otomatis</title>
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-blue-600 selection:text-white">
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
+          <i data-lucide="wifi" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h1 id="brand-title" class="font-extrabold text-lg leading-tight text-slate-900">NETVOUCHER ID</h1>
+          <p id="hotspot-subtitle" class="text-xs text-slate-500">WiFi Corner & RT-RW Net</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons & Hamburger Menu -->
+      <div class="flex items-center gap-2">
+        <a id="login-hotspot-btn" href="/login.html" class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all border border-blue-200">
+          <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
+          Halaman Login WiFi
+        </a>
+
+        <!-- Tombol Menu Baris Tiga (Hamburger) -->
+        <div class="relative">
+          <button id="menu-toggle-btn" onclick="toggleDropdownMenu()" class="flex items-center gap-1.5 px-3 py-2 text-slate-700 hover:text-blue-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition border border-slate-200 font-semibold text-xs shadow-sm">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+            <span class="hidden sm:inline">Menu</span>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-200 p-2 z-50 transition-all">
+            <div class="px-3 py-2 border-b border-slate-100">
+              <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Akses Masuk</p>
+            </div>
+            
+            <a href="admin.html" class="flex items-start gap-3 p-2.5 rounded-xl hover:bg-blue-50 text-slate-700 hover:text-blue-700 transition group">
+              <div class="w-9 h-9 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 group-hover:bg-blue-600 group-hover:text-white transition">
+                <i data-lucide="shield-check" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold leading-tight">Login Admin</p>
+                <p class="text-[11px] text-slate-500 leading-tight mt-0.5">Kelola stok voucher, harga & pesanan</p>
+              </div>
+            </a>
+
+            <a href="login.html" class="flex items-start gap-3 p-2.5 rounded-xl hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 transition group mt-1">
+              <div class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition">
+                <i data-lucide="wifi" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold leading-tight">Login WiFi Hotspot</p>
+                <p class="text-[11px] text-slate-500 leading-tight mt-0.5">Masukkan kode voucher untuk internetan</p>
+              </div>
+            </a>
+
+            <div class="mt-2 pt-2 border-t border-slate-100 px-3 py-1">
+              <p class="text-[10px] text-slate-400 text-center">NETVOUCHER ID &bull; Termux Server</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION (Tampilan Natural / Sederhana) -->
+  <section class="bg-gradient-to-b from-blue-900 to-slate-900 text-white py-10 px-4 border-b border-slate-800">
+    <div class="max-w-4xl mx-auto text-center">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 mb-3 border border-emerald-500/30">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        Hotspot Aktif & Online
+      </span>
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">Voucher Internet WiFi Corner</h2>
+      <p class="mt-2 text-slate-300 text-sm max-w-lg mx-auto">
+        Beli voucher internet harian, mingguan, dan bulanan. Pembayaran via QRIS & E-Wallet, kode langsung muncul.
+      </p>
+
+      <!-- Check Order Status / Voucher Code Quick Access -->
+      <div class="mt-6 flex flex-col sm:flex-row justify-center items-center gap-2">
+        <div class="relative w-full max-w-xs">
+          <input type="text" id="check-order-input" placeholder="Cek Kode Voucher / No. Pesanan..." class="w-full px-4 py-2.5 rounded-xl text-sm bg-slate-800/80 text-white placeholder-slate-400 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <button onclick="checkSpecificOrder()" class="w-full sm:w-auto px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl transition shadow">
+          Cek Voucher
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN PACKAGES LIST -->
+  <main class="max-w-6xl mx-auto px-4 py-10 flex-1 w-full">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+      <div>
+        <h3 class="text-2xl font-bold text-slate-900">Pilihan Paket Voucher</h3>
+        <p class="text-slate-500 text-sm mt-1">Sesuaikan dengan kebutuhan streaming, gaming, atau harian Anda</p>
+      </div>
+      <div class="flex items-center gap-2 text-xs text-slate-500 bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm">
+        <i data-lucide="zap" class="w-4 h-4 text-amber-500"></i>
+        <span>Pengiriman Kode Cepat & Real-Time</span>
+      </div>
+    </div>
+
+    <!-- Package Grid -->
+    <div id="packages-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Loading Skeleton -->
+      <div class="animate-pulse bg-white p-6 rounded-2xl border border-slate-200 h-72"></div>
+      <div class="animate-pulse bg-white p-6 rounded-2xl border border-slate-200 h-72"></div>
+      <div class="animate-pulse bg-white p-6 rounded-2xl border border-slate-200 h-72"></div>
+      <div class="animate-pulse bg-white p-6 rounded-2xl border border-slate-200 h-72"></div>
+    </div>
+
+    <!-- CARA PENGGUNAAN -->
+    <div class="mt-16 bg-gradient-to-r from-blue-50 via-cyan-50 to-indigo-50 border border-blue-100 rounded-3xl p-6 md:p-8">
+      <h4 class="text-lg font-bold text-slate-900 mb-6 text-center">3 Langkah Mudah Berinternet</h4>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-xl bg-blue-600 text-white font-extrabold flex items-center justify-center shrink-0 shadow-md shadow-blue-500/20">1</div>
+          <div>
+            <h5 class="font-bold text-slate-900 text-sm">Pilih & Pesan</h5>
+            <p class="text-xs text-slate-600 mt-1">Pilih durasi paket yang kamu inginkan lalu isi nama & nomor kontak.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-xl bg-cyan-600 text-white font-extrabold flex items-center justify-center shrink-0 shadow-md shadow-cyan-500/20">2</div>
+          <div>
+            <h5 class="font-bold text-slate-900 text-sm">Bayar QRIS / E-Wallet</h5>
+            <p class="text-xs text-slate-600 mt-1">Scan kode QRIS All Payment (GoPay, OVO, Dana, ShopeePay, BCA, Mandiri dll).</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white font-extrabold flex items-center justify-center shrink-0 shadow-md shadow-indigo-500/20">3</div>
+          <div>
+            <h5 class="font-bold text-slate-900 text-sm">Salin Kode & Login</h5>
+            <p class="text-xs text-slate-600 mt-1">Kode voucher otomatis tampil! Tinggal klik tombol untuk langsung login ke WiFi.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL PEMBELIAN (ORDER MODAL) -->
+  <div id="order-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl transition-all scale-95 duration-200" id="order-modal-content">
+      
+      <!-- Header Modal -->
+      <div class="bg-gradient-to-r from-blue-600 to-cyan-600 p-5 text-white flex items-center justify-between">
+        <div>
+          <h3 class="font-bold text-lg">Beli Voucher WiFi</h3>
+          <p class="text-xs text-blue-100" id="modal-pkg-name">Paket WiFi</p>
+        </div>
+        <button onclick="closeModal('order-modal')" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Form Content -->
+      <div class="p-6 space-y-4">
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex justify-between items-center">
+          <div>
+            <span class="text-xs text-slate-500 block">Total Tagihan</span>
+            <span class="text-xl font-black text-blue-600" id="modal-pkg-price">Rp 0</span>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-1 bg-blue-100 text-blue-800 rounded-lg" id="modal-pkg-duration">Durasi</span>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Pembeli</label>
+          <input type="text" id="buyer-name" placeholder="Misal: Andi / Rian" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">No. WhatsApp / HP</label>
+          <input type="tel" id="buyer-phone" placeholder="08xxxxxxxxxx" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <p class="text-[11px] text-slate-400 mt-1">Untuk verifikasi pesanan atau bantuan CS</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Metode Pembayaran</label>
+          <div class="grid grid-cols-2 gap-2">
+            <label class="border-2 border-blue-600 bg-blue-50/50 rounded-xl p-3 flex items-center gap-2 cursor-pointer transition">
+              <input type="radio" name="paymethod" value="QRIS" checked class="text-blue-600">
+              <span class="text-xs font-bold text-slate-800">QRIS (Semua Bank/E-Wallet)</span>
+            </label>
+            <label class="border border-slate-200 rounded-xl p-3 flex items-center gap-2 cursor-pointer hover:border-slate-300 transition">
+              <input type="radio" name="paymethod" value="DANA" class="text-blue-600">
+              <span class="text-xs font-bold text-slate-800">DANA / GoPay</span>
+            </label>
+          </div>
+        </div>
+
+        <button id="btn-submit-order" onclick="submitOrder()" class="w-full py-3.5 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-blue-500/25 transition">
+          Lanjut ke Pembayaran
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL PEMBAYARAN & STATUS VOUCHER -->
+  <div id="payment-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl transition-all max-h-[92vh] flex flex-col">
+      
+      <div class="bg-slate-900 p-5 text-white flex items-center justify-between">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs px-2 py-0.5 rounded bg-blue-500/30 text-blue-300 font-mono" id="pay-order-id">ORD-XXXX</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold" id="pay-order-status">Menunggu Bayar</span>
+          </div>
+          <h3 class="font-bold text-base mt-1" id="pay-pkg-name">Paket WiFi</h3>
+        </div>
+        <button onclick="closeModal('payment-modal')" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-5 text-center flex-1">
+        
+        <!-- STATUS JIKA SUKSES -->
+        <div id="section-voucher-success" class="hidden">
+          <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-inner">
+            <i data-lucide="check-circle-2" class="w-9 h-9"></i>
+          </div>
+          <h4 class="text-xl font-extrabold text-slate-900">Pembayaran Berhasil!</h4>
+          <p class="text-xs text-slate-500 mt-1">Berikut adalah kode voucher internet Anda:</p>
+
+          <div class="mt-4 p-4 bg-gradient-to-tr from-blue-50 to-indigo-50 border-2 border-dashed border-blue-400 rounded-2xl relative">
+            <span class="text-xs text-blue-600 font-bold tracking-wider uppercase block mb-1">Kode Voucher WiFi</span>
+            <span id="display-voucher-code" class="text-2xl sm:text-3xl font-black font-mono tracking-widest text-blue-900 select-all">--------</span>
+            <button onclick="copyVoucherCode()" class="mt-3 inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-md transition">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              Salin Kode
+            </button>
+          </div>
+
+          <div class="mt-4 space-y-2">
+            <a id="btn-direct-login" href="http://192.168.88.1/login" target="_blank" class="w-full inline-flex items-center justify-center gap-2 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-emerald-500/20 transition">
+              <i data-lucide="wifi" class="w-4 h-4"></i>
+              Buka Halaman Login Hotspot
+            </a>
+            <p class="text-[11px] text-slate-400">Pastikan perangkat Anda sudah terhubung ke WiFi Hotspot</p>
+          </div>
+        </div>
+
+        <!-- STATUS MENUNGGU BAYAR / QRIS -->
+        <div id="section-payment-instructions">
+          <div class="bg-blue-50 border border-blue-200 rounded-2xl p-3 text-xs text-blue-800 font-medium">
+            Scan QRIS di bawah ini dengan BCA, Mandiri, BRI, GoPay, OVO, ShopeePay atau DANA:
+          </div>
+
+          <div class="p-3 bg-white border border-slate-200 rounded-2xl shadow-sm inline-block my-2">
+            <img id="qris-img-preview" src="" alt="QRIS" class="w-52 h-52 object-contain mx-auto rounded-lg">
+          </div>
+
+          <div class="text-left bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs space-y-1.5">
+            <div class="flex justify-between">
+              <span class="text-slate-500">Nominal Transfer:</span>
+              <span class="font-extrabold text-blue-700 text-sm" id="pay-total-amount">Rp 0</span>
+            </div>
+            <div class="flex justify-between" id="row-dana">
+              <span class="text-slate-500">No. DANA:</span>
+              <span class="font-bold text-slate-800" id="pay-dana-number">-</span>
+            </div>
+            <div class="flex justify-between" id="row-gopay">
+              <span class="text-slate-500">No. GoPay:</span>
+              <span class="font-bold text-slate-800" id="pay-gopay-number">-</span>
+            </div>
+          </div>
+
+          <div class="pt-2 space-y-2">
+            <button onclick="confirmManualPay()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl shadow-md transition flex items-center justify-center gap-2">
+              <i data-lucide="send" class="w-4 h-4"></i>
+              Saya Sudah Transfer
+            </button>
+            <a id="btn-wa-confirm" href="#" target="_blank" class="w-full py-2.5 bg-emerald-50 text-emerald-700 border border-emerald-300 hover:bg-emerald-100 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2">
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              Konfirmasi Cepat via WhatsApp
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-slate-200 py-6 px-4 mt-auto">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <p>© 2026 <span id="footer-store-name">NETVOUCHER ID</span>. Layanan Akses Internet Cepat.</p>
+      <div class="flex items-center gap-4">
+        <span>Bantuan CS: <a id="footer-cs-link" href="#" class="text-blue-600 font-semibold hover:underline">WhatsApp</a></span>
+        <a href="/admin.html" class="text-slate-400 hover:text-slate-700">Admin Login</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT FRONTEND -->
+  <script>
+    let currentStoreData = null;
+    let selectedPackage = null;
+    let activeOrderId = null;
+    let pollInterval = null;
+
+    // Load Data Toko
+    async function fetchStore() {
+      try {
+        const res = await fetch('/api/store-info');
+        const data = await res.json();
+        currentStoreData = data;
+        renderStore(data);
+      } catch (err) {
+        console.error('Error fetching store info:', err);
+      }
+    }
+
+    function renderStore(data) {
+      document.getElementById('brand-title').textContent = data.settings.storeName;
+      document.getElementById('footer-store-name').textContent = data.settings.storeName;
+      document.getElementById('hotspot-subtitle').textContent = data.settings.hotspotName;
+      document.getElementById('login-hotspot-btn').href = data.settings.loginUrl;
+      document.getElementById('footer-cs-link').href = `https://wa.me/${data.settings.whatsappCs}`;
+
+      const container = document.getElementById('packages-container');
+      container.innerHTML = '';
+
+      if (data.packages.length === 0) {
+        container.innerHTML = `<div class="col-span-full text-center py-10 text-slate-400">Belum ada paket voucher tersedia</div>`;
+        return;
+      }
+
+      data.packages.forEach(pkg => {
+        const isOutOfStock = pkg.stock <= 0;
+        const card = document.createElement('div');
+        card.className = `glass-card border ${isOutOfStock ? 'border-slate-200 opacity-70' : 'border-blue-100/80 hover:border-blue-400 hover:shadow-xl'} rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 relative group`;
+
+        card.innerHTML = `
+          ${pkg.badge ? `<span class="absolute -top-3 left-6 px-3 py-1 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-extrabold text-[11px] rounded-full shadow-md uppercase tracking-wider">${pkg.badge}</span>` : ''}
+          
+          <div>
+            <div class="flex items-start justify-between">
+              <div>
+                <h4 class="font-extrabold text-lg text-slate-900 group-hover:text-blue-600 transition">${pkg.name}</h4>
+                <div class="flex items-center gap-1 text-slate-500 text-xs mt-1">
+                  <i data-lucide="clock" class="w-3.5 h-3.5 text-blue-500"></i>
+                  <span>${pkg.duration}</span>
+                </div>
+              </div>
+              <div class="p-2.5 rounded-2xl bg-blue-50 text-blue-600">
+                <i data-lucide="wifi" class="w-6 h-6"></i>
+              </div>
+            </div>
+
+            <div class="my-5">
+              <span class="text-2xl font-black text-slate-900">Rp ${Number(pkg.price).toLocaleString('id-ID')}</span>
+              <div class="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 mt-1">
+                <i data-lucide="gauge" class="w-3.5 h-3.5"></i>
+                <span>Kecepatan: ${pkg.speed || 'Stabil'}</span>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-500 leading-relaxed mb-4">${pkg.desc || 'Akses internet tanpa batas kuota'}</p>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between text-xs mb-3 font-medium">
+              <span class="text-slate-500">Sisa Stok:</span>
+              <span class="${isOutOfStock ? 'text-rose-500 font-bold' : 'text-slate-700 font-bold'}">${pkg.stock} Voucher</span>
+            </div>
+
+            <button 
+              onclick="openOrderModal('${pkg.id}')" 
+              ${isOutOfStock ? 'disabled' : ''}
+              class="w-full py-3 rounded-2xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition ${isOutOfStock ? 'bg-slate-200 text-slate-400 cursor-not-allowed' : 'bg-slate-900 hover:bg-blue-600 text-white shadow-md'}">
+              <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+              ${isOutOfStock ? 'Habis' : 'Beli Sekarang'}
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    function openOrderModal(pkgId) {
+      selectedPackage = currentStoreData.packages.find(p => p.id === pkgId);
+      if (!selectedPackage) return;
+
+      document.getElementById('modal-pkg-name').textContent = selectedPackage.name;
+      document.getElementById('modal-pkg-duration').textContent = selectedPackage.duration;
+      document.getElementById('modal-pkg-price').textContent = 'Rp ' + Number(selectedPackage.price).toLocaleString('id-ID');
+      
+      document.getElementById('order-modal').classList.remove('hidden');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.add('hidden');
+      if (modalId === 'payment-modal' && pollInterval) {
+        clearInterval(pollInterval);
+      }
+    }
+
+    async function submitOrder() {
+      const name = document.getElementById('buyer-name').value.trim();
+      const phone = document.getElementById('buyer-phone').value.trim();
+      const payMethod = document.querySelector('input[name="paymethod"]:checked').value;
+
+      if (!name || !phone) {
+        alert('Mohon isi nama dan nomor HP/WhatsApp!');
+        return;
+      }
+
+      const btn = document.getElementById('btn-submit-order');
+      btn.disabled = true;
+      btn.textContent = 'Membuat Pesanan...';
+
+      try {
+        const res = await fetch('/api/orders/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            buyerName: name,
+            buyerPhone: phone,
+            packageId: selectedPackage.id,
+            paymentMethod: payMethod
+          })
+        });
+        const result = await res.json();
+        btn.disabled = false;
+        btn.textContent = 'Lanjut ke Pembayaran';
+
+        if (result.success) {
+          closeModal('order-modal');
+          showPaymentModal(result.order);
+        } else {
+          alert(result.message || 'Gagal membuat pesanan');
+        }
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = 'Lanjut ke Pembayaran';
+        alert('Terjadi kesalahan jaringan');
+      }
+    }
+
+    function showPaymentModal(order) {
+      activeOrderId = order.id;
+      document.getElementById('pay-order-id').textContent = order.id;
+      document.getElementById('pay-pkg-name').textContent = order.packageName;
+      document.getElementById('pay-total-amount').textContent = 'Rp ' + Number(order.price).toLocaleString('id-ID');
+      
+      document.getElementById('qris-img-preview').src = currentStoreData.settings.qrisImage;
+      document.getElementById('pay-dana-number').textContent = currentStoreData.settings.danaNumber;
+      document.getElementById('pay-gopay-number').textContent = currentStoreData.settings.gopayNumber;
+      
+      // WhatsApp Konfirmasi
+      const waText = encodeURIComponent(`Halo Admin, saya sudah bayar voucher WiFi.\nID Pesanan: ${order.id}\nPaket: ${order.packageName}\nTotal: Rp ${order.price}\nAtas Nama: ${order.buyerName}`);
+      document.getElementById('btn-wa-confirm').href = `https://wa.me/${currentStoreData.settings.whatsappCs}?text=${waText}`;
+
+      document.getElementById('btn-direct-login').href = currentStoreData.settings.loginUrl;
+
+      // Handle status display
+      updateModalStatus(order);
+
+      document.getElementById('payment-modal').classList.remove('hidden');
+
+      // Mulai Auto-Polling setiap 3 detik untuk cek rilis voucher dari admin
+      if (pollInterval) clearInterval(pollInterval);
+      pollInterval = setInterval(pollOrderStatus, 3000);
+    }
+
+    function updateModalStatus(order) {
+      const statusBadge = document.getElementById('pay-order-status');
+      const instructions = document.getElementById('section-payment-instructions');
+      const successView = document.getElementById('section-voucher-success');
+
+      if (order.status === 'SUCCESS') {
+        statusBadge.textContent = 'LUNAS / BERHASIL';
+        statusBadge.className = 'text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold';
+        instructions.classList.add('hidden');
+        successView.classList.remove('hidden');
+        document.getElementById('display-voucher-code').textContent = order.voucherCode || 'BELUM DIGENERATE';
+        lucide.createIcons();
+      } else {
+        statusBadge.textContent = 'Menunggu Verifikasi Admin';
+        statusBadge.className = 'text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold';
+        instructions.classList.remove('hidden');
+        successView.classList.add('hidden');
+      }
+    }
+
+    async function pollOrderStatus() {
+      if (!activeOrderId) return;
+      try {
+        const res = await fetch(`/api/orders/check/${activeOrderId}`);
+        const data = await res.json();
+        if (data.success && data.order) {
+          updateModalStatus(data.order);
+          if (data.order.status === 'SUCCESS') {
+            clearInterval(pollInterval);
+          }
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function confirmManualPay() {
+      if (!activeOrderId) return;
+      try {
+        const res = await fetch('/api/orders/confirm-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId: activeOrderId })
+        });
+        const d = await res.json();
+        alert(d.message || 'Konfirmasi tercatat! Menunggu admin verifikasi.');
+      } catch (e) {
+        alert('Gagal mengirim konfirmasi');
+      }
+    }
+
+    async function checkSpecificOrder() {
+      const id = document.getElementById('check-order-input').value.trim();
+      if (!id) {
+        alert('Masukkan ID Pesanan Anda (Contoh: ORD-...)');
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/orders/check/${id}`);
+        const data = await res.json();
+        if (data.success && data.order) {
+          showPaymentModal(data.order);
+        } else {
+          alert('Pesanan dengan ID tersebut tidak ditemukan!');
+        }
+      } catch (err) {
+        alert('Gagal mengecek pesanan');
+      }
+    }
+
+    function copyVoucherCode() {
+      const code = document.getElementById('display-voucher-code').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        alert('Kode voucher berhasil disalin: ' + code);
+      });
+    }
+
+    function toggleDropdownMenu() {
+      const menu = document.getElementById('dropdown-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    // Klik di luar dropdown untuk menutup menu
+    document.addEventListener('click', function(e) {
+      const menu = document.getElementById('dropdown-menu');
+      const btn = document.getElementById('menu-toggle-btn');
+      if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.classList.add('hidden');
+      }
+    });
+
+    // Init
+    fetchStore();
+  </script>
+</body>
+</html>

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Penjualan Voucher WiFi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen">
+
+  <!-- LOGIN OVERLAY -->
+  <div id="login-modal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-8 shadow-2xl text-center">
+      <!-- Foto Gambar Visual WiFi Router Hotspot Asli -->
+      <div class="relative w-24 h-24 mx-auto mb-4">
+        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=300&q=80" alt="WiFi Network" class="w-24 h-24 rounded-2xl object-cover shadow-lg border-2 border-blue-500">
+        <span class="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 border-2 border-white rounded-full shadow" title="Server Aktif"></span>
+      </div>
+      <h3 class="text-xl font-bold text-slate-900">Admin Login</h3>
+      <p class="text-xs text-slate-500 mt-1 mb-6">Kelola stok voucher, pesanan & pembayaran</p>
+
+      <form onsubmit="handleLogin(event)" autocomplete="off" class="space-y-4">
+        <div class="text-left">
+          <label class="text-xs font-semibold text-slate-600 block mb-1">Username Admin</label>
+          <input type="text" id="admin-user" name="wifi_admin_user" autocomplete="off" required placeholder="Username (contoh: admin)" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 mb-3">
+          
+          <label class="text-xs font-semibold text-slate-600 block mb-1">Password Admin</label>
+          <input type="password" id="admin-pass" name="wifi_admin_secret" autocomplete="new-password" required placeholder="Masukkan password" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl transition shadow-lg shadow-blue-500/25">
+          Masuk Panel
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADMIN APP CONTENT -->
+  <div id="admin-panel" class="hidden min-h-screen flex flex-col md:flex-row">
+    
+    <!-- SIDEBAR -->
+    <aside class="w-full md:w-64 bg-slate-900 text-white p-5 flex flex-col justify-between shrink-0">
+      <div>
+        <div class="flex items-center gap-3 pb-6 border-b border-slate-800">
+          <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white">
+            <i data-lucide="wifi" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h2 class="font-bold text-sm tracking-wide">PANEL ADMIN</h2>
+            <p class="text-[11px] text-slate-400">Voucher Hotspot</p>
+          </div>
+        </div>
+
+        <nav class="mt-6 space-y-1.5 text-sm">
+          <button onclick="switchTab('orders')" id="nav-orders" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-blue-600 text-white font-semibold transition">
+            <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+            Pesanan Masuk
+            <span id="badge-pending-count" class="ml-auto text-[11px] bg-rose-500 text-white px-2 py-0.5 rounded-full font-bold hidden">0</span>
+          </button>
+          <button onclick="switchTab('packages')" id="nav-packages" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 font-semibold transition">
+            <i data-lucide="layers" class="w-4 h-4"></i>
+            Paket Voucher
+          </button>
+          <button onclick="switchTab('vouchers')" id="nav-vouchers" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 font-semibold transition">
+            <i data-lucide="ticket" class="w-4 h-4"></i>
+            Stok Kode Voucher
+          </button>
+          <button onclick="switchTab('settings')" id="nav-settings" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 font-semibold transition">
+            <i data-lucide="settings" class="w-4 h-4"></i>
+            Pengaturan & QRIS
+          </button>
+        </nav>
+      </div>
+
+      <div class="pt-6 border-t border-slate-800 space-y-3">
+        <a href="/" target="_blank" class="flex items-center gap-2 text-xs text-slate-400 hover:text-white transition">
+          <i data-lucide="external-link" class="w-4 h-4"></i>
+          Buka Web Pembeli
+        </a>
+        <button onclick="handleLogout()" class="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 text-xs font-semibold transition">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          Keluar
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN BODY -->
+    <main class="flex-1 p-6 md:p-8 overflow-y-auto">
+      
+      <!-- TOP STATS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <i data-lucide="wallet" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <span class="text-xs text-slate-400 font-medium">Total Pendapatan</span>
+            <h4 class="text-xl font-black text-slate-900" id="stat-revenue">Rp 0</h4>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+            <i data-lucide="clock" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <span class="text-xs text-slate-400 font-medium">Perlu Konfirmasi</span>
+            <h4 class="text-xl font-black text-slate-900" id="stat-pending">0</h4>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+            <i data-lucide="check-circle" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <span class="text-xs text-slate-400 font-medium">Voucher Terjual</span>
+            <h4 class="text-xl font-black text-slate-900" id="stat-success">0</h4>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+            <i data-lucide="database" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <span class="text-xs text-slate-400 font-medium">Sisa Stok Kode</span>
+            <h4 class="text-xl font-black text-slate-900" id="stat-stock">0</h4>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 1: ORDERS -->
+      <section id="tab-orders" class="space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-xl font-bold text-slate-900">Daftar Transaksi Pembeli</h3>
+            <p class="text-xs text-slate-500">Konfirmasi pembayaran untuk otomatis merilis kode voucher ke pembeli</p>
+          </div>
+          <button onclick="fetchAdminData()" class="p-2 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-600 transition" title="Refresh">
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-slate-600 uppercase font-semibold border-b border-slate-200">
+                <tr>
+                  <th class="p-4">ID / Waktu</th>
+                  <th class="p-4">Pembeli</th>
+                  <th class="p-4">Paket & Harga</th>
+                  <th class="p-4">Metode</th>
+                  <th class="p-4">Status</th>
+                  <th class="p-4">Kode Voucher</th>
+                  <th class="p-4 text-center">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="orders-table-body" class="divide-y divide-slate-100">
+                <tr><td colspan="7" class="text-center p-6 text-slate-400">Memuat data...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: PACKAGES -->
+      <section id="tab-packages" class="hidden space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-xl font-bold text-slate-900">Manajemen Paket Voucher</h3>
+            <p class="text-xs text-slate-500">Atur durasi, tarif harga, kecepatan, dan info badge</p>
+          </div>
+          <button onclick="openAddPackageModal()" class="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow transition">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            Tambah Paket
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="packages-admin-list">
+          <!-- Render dynamic -->
+        </div>
+      </section>
+
+      <!-- TAB 3: VOUCHERS STOCK -->
+      <section id="tab-vouchers" class="hidden space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h3 class="text-xl font-bold text-slate-900">Stok Kode Voucher</h3>
+            <p class="text-xs text-slate-500">Import kode voucher dari Mikrotik / User Manager (Bisa massal/bulk)</p>
+          </div>
+          <button onclick="openAddVoucherModal()" class="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow transition">
+            <i data-lucide="upload" class="w-4 h-4"></i>
+            Import Kode Voucher
+          </button>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+          <div class="overflow-x-auto max-h-[600px]">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-slate-600 uppercase font-semibold border-b border-slate-200 sticky top-0">
+                <tr>
+                  <th class="p-4">Kode Voucher</th>
+                  <th class="p-4">Paket</th>
+                  <th class="p-4">Status</th>
+                  <th class="p-4">ID Pesanan Terkait</th>
+                  <th class="p-4 text-center">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="vouchers-table-body" class="divide-y divide-slate-100">
+                <!-- Render vouchers -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: SETTINGS -->
+      <section id="tab-settings" class="hidden space-y-6">
+        <div>
+          <h3 class="text-xl font-bold text-slate-900">Pengaturan Toko & Pembayaran</h3>
+          <p class="text-xs text-slate-500">Konfigurasi nama toko, QRIS, e-wallet, link login Mikrotik, dan password admin</p>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm max-w-2xl space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Nama Toko / Usaha</label>
+            <input type="text" id="cfg-store-name" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Nama Hotspot / Subtitle</label>
+            <input type="text" id="cfg-hotspot-name" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">URL Login Hotspot Mikrotik</label>
+            <input type="text" id="cfg-login-url" placeholder="http://192.168.88.1/login" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm">
+            <p class="text-[11px] text-slate-400 mt-1">Alamat IP atau DNS mikrotik yang terbuka saat pelanggan klik "Buka Halaman Login"</p>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Foto / Gambar QRIS</label>
+            <div class="flex gap-2">
+              <input type="text" id="cfg-qris-image" placeholder="URL Gambar atau pilih file..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm">
+              <label class="cursor-pointer px-4 py-2.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-xl text-xs font-bold shrink-0 border border-blue-200 flex items-center gap-1.5 transition">
+                <i data-lucide="image" class="w-4 h-4"></i>
+                <span>Upload Foto</span>
+                <input type="file" id="qris-file-input" accept="image/*" class="hidden" onchange="handleQRISUpload(event)">
+              </label>
+            </div>
+            <!-- Preview QRIS -->
+            <div id="qris-preview-container" class="mt-2 hidden">
+              <p class="text-[10px] text-slate-400 mb-1">Preview QRIS:</p>
+              <img id="qris-preview-img" src="" alt="Preview QRIS" class="w-32 h-32 object-contain rounded-xl border border-slate-200 p-1 bg-white shadow-sm">
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">Bisa masukkan link gambar (URL) atau langsung upload foto QRIS dari galeri HP.</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Nomor DANA</label>
+              <input type="text" id="cfg-dana" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Nomor GoPay</label>
+              <input type="text" id="cfg-gopay" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Nomor WhatsApp CS (Format: 628xxxxxxxx)</label>
+            <input type="text" id="cfg-whatsapp" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm">
+          </div>
+          <div class="pt-4 border-t border-slate-100">
+            <label class="block text-xs font-bold text-rose-600 mb-1">Ubah Password Admin</label>
+            <input type="text" id="cfg-password" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm">
+          </div>
+
+          <button onclick="saveSettings()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl transition shadow">
+            Simpan Perubahan
+          </button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL IMPORT VOUCHERS -->
+  <div id="modal-bulk-voucher" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
+      <h3 class="font-bold text-base text-slate-900 mb-1">Import Kode Voucher Massal</h3>
+      <p class="text-xs text-slate-500 mb-4">Paste kode voucher hasil generate Mikrotik (satu kode per baris)</p>
+      
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Paket WiFi</label>
+          <select id="bulk-pkg-select" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs"></select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Daftar Kode (1 per baris)</label>
+          <textarea id="bulk-codes-textarea" rows="8" placeholder="NV-3J-1029&#10;NV-3J-4921&#10;NV-3J-9923" class="w-full p-3 border border-slate-300 rounded-xl text-xs font-mono"></textarea>
+        </div>
+        <div class="flex gap-2 pt-2">
+          <button onclick="closeModalDirect('modal-bulk-voucher')" class="flex-1 py-2.5 bg-slate-100 text-slate-600 rounded-xl text-xs font-bold">Batal</button>
+          <button onclick="submitBulkVouchers()" class="flex-1 py-2.5 bg-emerald-600 text-white rounded-xl text-xs font-bold shadow">Simpan Semua</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL TAMBAH PAKET -->
+  <div id="modal-add-package" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
+      <h3 class="font-bold text-base text-slate-900 mb-4">Tambah Paket WiFi Baru</h3>
+      
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Nama Paket</label>
+          <input type="text" id="pkg-input-name" placeholder="Misal: Paket 12 Jam" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs">
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Durasi</label>
+            <input type="text" id="pkg-input-duration" placeholder="12 Jam" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Harga (Rp)</label>
+            <input type="number" id="pkg-input-price" placeholder="3000" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Kecepatan</label>
+            <input type="text" id="pkg-input-speed" placeholder="Up to 10 Mbps" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Badge (Opsional)</label>
+            <input type="text" id="pkg-input-badge" placeholder="Best Seller" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Deskripsi Singkat</label>
+          <input type="text" id="pkg-input-desc" placeholder="Cocok untuk game & youtube" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs">
+        </div>
+        <div class="flex gap-2 pt-3">
+          <button onclick="closeModalDirect('modal-add-package')" class="flex-1 py-2.5 bg-slate-100 text-slate-600 rounded-xl text-xs font-bold">Batal</button>
+          <button onclick="submitNewPackage()" class="flex-1 py-2.5 bg-blue-600 text-white rounded-xl text-xs font-bold shadow">Simpan Paket</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+    let adminToken = sessionStorage.getItem('voucher_admin_token') || '';
+    let dashboardData = null;
+
+    // Hapus sisa token lama jika ada di localStorage agar selalu minta login
+    localStorage.removeItem('voucher_admin_token');
+
+    if (adminToken) {
+      document.getElementById('login-modal').classList.add('hidden');
+      document.getElementById('admin-panel').classList.remove('hidden');
+      fetchAdminData();
+    } else {
+      document.getElementById('login-modal').classList.remove('hidden');
+      document.getElementById('admin-panel').classList.add('hidden');
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const user = document.getElementById('admin-user').value.trim();
+      const pass = document.getElementById('admin-pass').value;
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: user, password: pass })
+        });
+        const data = await res.json();
+        if (data.success) {
+          adminToken = data.token;
+          sessionStorage.setItem('voucher_admin_token', adminToken);
+          document.getElementById('login-modal').classList.add('hidden');
+          document.getElementById('admin-panel').classList.remove('hidden');
+          fetchAdminData();
+        } else {
+          alert(data.message || 'Username atau Password salah!');
+        }
+      } catch (err) {
+        alert('Gagal menghubungi server');
+      }
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem('voucher_admin_token');
+      localStorage.removeItem('voucher_admin_token');
+      location.reload();
+    }
+
+    async function fetchAdminData() {
+      try {
+        const res = await fetch('/api/admin/dashboard', {
+          headers: { 'Authorization': adminToken }
+        });
+        if (res.status === 401) {
+          handleLogout();
+          return;
+        }
+        const data = await res.json();
+        dashboardData = data;
+        renderDashboard(data);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function renderDashboard(data) {
+      // Stats
+      document.getElementById('stat-revenue').textContent = 'Rp ' + Number(data.summary.totalRevenue).toLocaleString('id-ID');
+      document.getElementById('stat-pending').textContent = data.summary.pendingOrders;
+      document.getElementById('stat-success').textContent = data.summary.successOrders;
+      document.getElementById('stat-stock').textContent = data.summary.totalStock;
+
+      const badgePending = document.getElementById('badge-pending-count');
+      if (data.summary.pendingOrders > 0) {
+        badgePending.textContent = data.summary.pendingOrders;
+        badgePending.classList.remove('hidden');
+      } else {
+        badgePending.classList.add('hidden');
+      }
+
+      // Render Orders Table
+      const orderBody = document.getElementById('orders-table-body');
+      orderBody.innerHTML = '';
+      if (data.orders.length === 0) {
+        orderBody.innerHTML = `<tr><td colspan="7" class="text-center p-6 text-slate-400">Belum ada transaksi</td></tr>`;
+      } else {
+        data.orders.forEach(o => {
+          const tr = document.createElement('tr');
+          const isPending = o.status === 'PENDING';
+          const isSuccess = o.status === 'SUCCESS';
+          
+          tr.className = isPending ? 'bg-amber-50/50' : '';
+          tr.innerHTML = `
+            <td class="p-4 font-mono font-bold text-slate-900">
+              ${o.id}
+              <div class="text-[10px] text-slate-400 font-normal font-sans">${new Date(o.createdAt).toLocaleString('id-ID')}</div>
+            </td>
+            <td class="p-4">
+              <span class="font-bold text-slate-800">${o.buyerName}</span>
+              <div class="text-[11px] text-slate-500 font-mono">${o.buyerPhone}</div>
+            </td>
+            <td class="p-4">
+              <span class="font-semibold text-slate-800">${o.packageName}</span>
+              <div class="text-blue-600 font-bold">Rp ${Number(o.price).toLocaleString('id-ID')}</div>
+            </td>
+            <td class="p-4 font-semibold text-slate-600">${o.paymentMethod || 'QRIS'}</td>
+            <td class="p-4">
+              ${isSuccess ? '<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800">LUNAS</span>' : ''}
+              ${isPending ? '<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 animate-pulse">PENDING</span>' : ''}
+              ${o.status === 'REJECTED' ? '<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-100 text-rose-800">DITOLAK</span>' : ''}
+            </td>
+            <td class="p-4 font-mono font-bold text-blue-700">
+              ${o.voucherCode ? `<span class="bg-blue-50 px-2 py-1 rounded border border-blue-200 select-all">${o.voucherCode}</span>` : '<span class="text-slate-400 font-normal italic">-</span>'}
+            </td>
+            <td class="p-4 text-center">
+              ${isPending ? `
+                <div class="flex items-center justify-center gap-1.5">
+                  <button onclick="approveOrder('${o.id}')" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-[11px] shadow transition">
+                    Approve
+                  </button>
+                  <button onclick="rejectOrder('${o.id}')" class="px-2.5 py-1.5 bg-rose-100 hover:bg-rose-200 text-rose-700 rounded-lg font-bold text-[11px] transition">
+                    Tolak
+                  </button>
+                </div>
+              ` : `
+                <span class="text-[11px] text-slate-400 font-medium">Selesai</span>
+              `}
+            </td>
+          `;
+          orderBody.appendChild(tr);
+        });
+      }
+
+      // Render Packages Admin
+      const pkgAdminList = document.getElementById('packages-admin-list');
+      pkgAdminList.innerHTML = '';
+      data.packages.forEach(pkg => {
+        const stockCount = data.vouchers.filter(v => v.packageId === pkg.id && !v.used).length;
+        const card = document.createElement('div');
+        card.className = 'bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between';
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between">
+              <h4 class="font-bold text-slate-900">${pkg.name}</h4>
+              <span class="text-xs px-2 py-0.5 rounded font-bold ${stockCount > 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'}">
+                Stok: ${stockCount}
+              </span>
+            </div>
+            <div class="text-lg font-extrabold text-blue-600 mt-2">Rp ${Number(pkg.price).toLocaleString('id-ID')}</div>
+            <p class="text-xs text-slate-500 mt-1">Durasi: ${pkg.duration} | Speed: ${pkg.speed}</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+            <button onclick="deletePackage('${pkg.id}')" class="text-rose-500 hover:text-rose-700 text-xs font-semibold px-2 py-1">Hapus</button>
+          </div>
+        `;
+        pkgAdminList.appendChild(card);
+      });
+
+      // Render Vouchers Stock Table
+      const voucherBody = document.getElementById('vouchers-table-body');
+      voucherBody.innerHTML = '';
+      if (data.vouchers.length === 0) {
+        voucherBody.innerHTML = `<tr><td colspan="5" class="text-center p-6 text-slate-400">Belum ada kode voucher</td></tr>`;
+      } else {
+        data.vouchers.forEach(v => {
+          const pkg = data.packages.find(p => p.id === v.packageId);
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td class="p-4 font-mono font-bold text-slate-900">${v.code}</td>
+            <td class="p-4 text-slate-700 font-medium">${pkg ? pkg.name : v.packageId}</td>
+            <td class="p-4">
+              ${v.used ? '<span class="text-slate-400 font-semibold">Sudah Terpakai</span>' : '<span class="text-emerald-600 font-bold">Siap Dijual</span>'}
+            </td>
+            <td class="p-4 font-mono text-slate-500">${v.orderId || '-'}</td>
+            <td class="p-4 text-center">
+              <button onclick="deleteVoucher('${v.id}')" class="text-rose-500 hover:text-rose-700 font-bold text-xs">Hapus</button>
+            </td>
+          `;
+          voucherBody.appendChild(tr);
+        });
+      }
+
+      // Populate Settings Form (Hanya isi jika user sedang tidak aktif mengetik di input tersebut)
+      const activeEl = document.activeElement;
+      if (activeEl?.id !== 'cfg-store-name') document.getElementById('cfg-store-name').value = data.settings.storeName || '';
+      if (activeEl?.id !== 'cfg-hotspot-name') document.getElementById('cfg-hotspot-name').value = data.settings.hotspotName || '';
+      if (activeEl?.id !== 'cfg-login-url') document.getElementById('cfg-login-url').value = data.settings.loginUrl || '';
+      if (activeEl?.id !== 'cfg-qris-image') document.getElementById('cfg-qris-image').value = data.settings.qrisImage || '';
+
+      // Update Preview QRIS jika ada
+      const qrisImg = document.getElementById('qris-preview-img');
+      const qrisBox = document.getElementById('qris-preview-container');
+      if (data.settings.qrisImage) {
+        qrisImg.src = data.settings.qrisImage;
+        qrisBox.classList.remove('hidden');
+      } else {
+        qrisBox.classList.add('hidden');
+      }
+
+      if (activeEl?.id !== 'cfg-dana') document.getElementById('cfg-dana').value = data.settings.danaNumber || '';
+      if (activeEl?.id !== 'cfg-gopay') document.getElementById('cfg-gopay').value = data.settings.gopayNumber || '';
+      if (activeEl?.id !== 'cfg-whatsapp') document.getElementById('cfg-whatsapp').value = data.settings.whatsappCs || '';
+      if (activeEl?.id !== 'cfg-password') document.getElementById('cfg-password').value = data.settings.adminPassword || '';
+
+      lucide.createIcons();
+    }
+
+    async function approveOrder(orderId) {
+      if (!confirm('Setujui pesanan ini dan otomatis berikan kode voucher ke pembeli?')) return;
+      try {
+        const res = await fetch('/api/admin/orders/approve', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': adminToken },
+          body: JSON.stringify({ orderId })
+        });
+        const d = await res.json();
+        alert(d.message);
+        fetchAdminData();
+      } catch (e) {
+        alert('Gagal menyetujui pesanan');
+      }
+    }
+
+    async function rejectOrder(orderId) {
+      const reason = prompt('Alasan penolakan pesanan:', 'Bukti transfer tidak valid/belum masuk');
+      if (reason === null) return;
+      try {
+        const res = await fetch('/api/admin/orders/reject', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': adminToken },
+          body: JSON.stringify({ orderId, reason })
+        });
+        const d = await res.json();
+        alert(d.message);
+        fetchAdminData();
+      } catch (e) {
+        alert('Gagal menolak pesanan');
+      }
+    }
+
+    // Auto refresh data pesanan & voucher setiap 10 detik (hanya refresh tabel jika tidak di tab settings)
+    let currentTab = 'orders';
+
+    function switchTab(tab) {
+      currentTab = tab;
+      ['orders', 'packages', 'vouchers', 'settings'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.add('hidden');
+        const nav = document.getElementById(`nav-${t}`);
+        nav.classList.remove('bg-blue-600', 'text-white');
+        nav.classList.add('text-slate-300');
+      });
+
+      document.getElementById(`tab-${tab}`).classList.remove('hidden');
+      const activeNav = document.getElementById(`nav-${tab}`);
+      activeNav.classList.add('bg-blue-600', 'text-white');
+      activeNav.classList.remove('text-slate-300');
+      lucide.createIcons();
+    }
+
+    function openAddVoucherModal() {
+      const select = document.getElementById('bulk-pkg-select');
+      select.innerHTML = '';
+      dashboardData.packages.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = `${p.name} (Rp ${p.price})`;
+        select.appendChild(opt);
+      });
+      document.getElementById('modal-bulk-voucher').classList.remove('hidden');
+    }
+
+    async function submitBulkVouchers() {
+      const packageId = document.getElementById('bulk-pkg-select').value;
+      const text = document.getElementById('bulk-codes-textarea').value;
+      const codes = text.split('\n').map(c => c.trim()).filter(Boolean);
+
+      if (codes.length === 0) {
+        alert('Masukkan minimal satu kode voucher!');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/admin/vouchers/bulk', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': adminToken },
+          body: JSON.stringify({ packageId, codes })
+        });
+        const d = await res.json();
+        alert(d.message);
+        closeModalDirect('modal-bulk-voucher');
+        document.getElementById('bulk-codes-textarea').value = '';
+        fetchAdminData();
+      } catch (e) {
+        alert('Gagal import voucher');
+      }
+    }
+
+    async function deleteVoucher(id) {
+      if (!confirm('Hapus voucher ini?')) return;
+      try {
+        await fetch(`/api/admin/vouchers/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': adminToken }
+        });
+        fetchAdminData();
+      } catch (e) {
+        alert('Gagal menghapus');
+      }
+    }
+
+    function openAddPackageModal() {
+      document.getElementById('modal-add-package').classList.remove('hidden');
+    }
+
+    async function submitNewPackage() {
+      const name = document.getElementById('pkg-input-name').value;
+      const duration = document.getElementById('pkg-input-duration').value;
+      const price = document.getElementById('pkg-input-price').value;
+      const speed = document.getElementById('pkg-input-speed').value;
+      const badge = document.getElementById('pkg-input-badge').value;
+      const desc = document.getElementById('pkg-input-desc').value;
+
+      if (!name || !price) {
+        alert('Nama dan harga harus diisi!');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/admin/packages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': adminToken },
+          body: JSON.stringify({ name, duration, price, speed, badge, desc })
+        });
+        const d = await res.json();
+        if (d.success) {
+          closeModalDirect('modal-add-package');
+          fetchAdminData();
+        }
+      } catch (e) {
+        alert('Gagal menambahkan paket');
+      }
+    }
+
+    async function deletePackage(id) {
+      if (!confirm('Yakin ingin menghapus paket ini?')) return;
+      try {
+        await fetch(`/api/admin/packages/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': adminToken }
+        });
+        fetchAdminData();
+      } catch (e) {
+        alert('Gagal menghapus');
+      }
+    }
+
+    function handleQRISUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        alert('File yang dipilih harus berupa gambar!');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const base64Data = evt.target.result;
+        document.getElementById('cfg-qris-image').value = base64Data;
+        document.getElementById('qris-preview-img').src = base64Data;
+        document.getElementById('qris-preview-container').classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function saveSettings() {
+      const body = {
+        storeName: document.getElementById('cfg-store-name').value,
+        hotspotName: document.getElementById('cfg-hotspot-name').value,
+        loginUrl: document.getElementById('cfg-login-url').value,
+        qrisImage: document.getElementById('cfg-qris-image').value,
+        danaNumber: document.getElementById('cfg-dana').value,
+        gopayNumber: document.getElementById('cfg-gopay').value,
+        whatsappCs: document.getElementById('cfg-whatsapp').value,
+        adminPassword: document.getElementById('cfg-password').value
+      };
+
+      try {
+        const res = await fetch('/api/admin/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': adminToken },
+          body: JSON.stringify(body)
+        });
+        const d = await res.json();
+        alert(d.message);
+        if (body.adminPassword !== adminToken) {
+          adminToken = body.adminPassword;
+          localStorage.setItem('voucher_admin_token', adminToken);
+        }
+        fetchAdminData();
+      } catch (e) {
+        alert('Gagal menyimpan pengaturan');
+      }
+    }
+
+    function closeModalDirect(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    // Auto refresh data admin setiap 10 detik (jangan timpa saat sedang buka tab Pengaturan)
+    setInterval(() => {
+      if (adminToken && currentTab !== 'settings') {
+        fetchAdminData();
+      }
+    }, 10000);
+  </script>
+</body>
+</html>

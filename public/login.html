@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login WiFi Hotspot - Masukkan Kode Voucher</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .hero-bg {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0369a1 100%);
+    }
+  </style>
+</head>
+<body class="hero-bg text-slate-800 min-h-screen flex items-center justify-center p-4">
+
+  <div class="w-full max-w-sm bg-white rounded-3xl shadow-2xl p-6 sm:p-8 text-center relative overflow-hidden border border-white/20">
+    <!-- Top Wave Accent -->
+    <div class="absolute -top-12 -right-12 w-32 h-32 bg-blue-500/10 rounded-full blur-xl pointer-events-none"></div>
+
+    <!-- Icon Hotspot -->
+    <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm border border-blue-100">
+      <i data-lucide="wifi" class="w-9 h-9 text-blue-600"></i>
+    </div>
+
+    <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Login WiFi Hotspot</h2>
+    <p class="text-xs text-slate-500 mt-1 mb-6">Hubungkan perangkat Anda ke jaringan internet berkecepatan tinggi</p>
+
+    <!-- Alert / Status -->
+    <div id="status-box" class="hidden mb-4 p-3 rounded-xl text-xs font-medium text-left"></div>
+
+    <!-- Form Login Voucher -->
+    <form onsubmit="handleVoucherLogin(event)" class="space-y-4 text-left">
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1.5">Kode Voucher</label>
+        <div class="relative">
+          <input type="text" id="voucher-code" required placeholder="Contoh: VC-84920" class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 text-sm font-semibold tracking-wider uppercase focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <i data-lucide="ticket" class="w-4 h-4"></i>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" id="btn-login" class="w-full py-3.5 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-blue-500/30 transition-all flex items-center justify-center gap-2">
+        <i data-lucide="zap" class="w-4 h-4"></i>
+        <span>Aktifkan Internet</span>
+      </button>
+    </form>
+
+    <!-- Info & Beli Voucher -->
+    <div class="mt-6 pt-5 border-t border-slate-100 text-center space-y-3">
+      <p class="text-xs text-slate-500">Belum punya kode voucher?</p>
+      <a href="/" class="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition">
+        <i data-lucide="shopping-cart" class="w-3.5 h-3.5 text-blue-600"></i>
+        Beli Voucher Otomatis
+      </a>
+      <div>
+        <p class="text-[11px] text-slate-400 mt-2">NETVOUCHER ID &bull; Hotspot Portal</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    function handleVoucherLogin(e) {
+      e.preventDefault();
+      const code = document.getElementById('voucher-code').value.trim();
+      const statusBox = document.getElementById('status-box');
+      const btn = document.getElementById('btn-login');
+
+      if (!code) return;
+
+      btn.disabled = true;
+      btn.innerHTML = '<span>Memverifikasi...</span>';
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="zap" class="w-4 h-4"></i><span>Aktifkan Internet</span>';
+        lucide.createIcons();
+
+        statusBox.classList.remove('hidden', 'bg-red-50', 'text-red-700', 'border-red-200');
+        statusBox.classList.add('bg-emerald-50', 'text-emerald-800', 'border', 'border-emerald-200');
+        statusBox.innerHTML = `
+          <div class="flex items-center gap-2 font-bold mb-1">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            Voucher Diterima!
+          </div>
+          <div>Kode <strong>${code}</strong> sedang diaktifkan. Perangkat Anda akan terhubung ke internet dalam beberapa detik.</div>
+        `;
+      }, 1200);
+    }
+  </script>
+</body>
+</html>
